@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Monoversal HUB — Systems. Solutions. Support.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --black:#0a0a0a; --white:#f5f5f0; --teal:#0e9c8f; --teal-dim:#0b7d73;
+  --teal-glow:rgba(14,156,143,0.15); --grey:#1a1a1a; --mid:#2e2e2e;
+  --muted:#888; --border:rgba(255,255,255,0.08); --gold:#C8960C;
+  --success:#27AE60; --warn:#E67E22;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 4rem;background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background 0.3s}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--teal)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--teal)!important;color:var(--black)!important;padding:0.5rem 1.4rem;border-radius:2px;font-weight:500!important}
+.nav-cta:hover{background:var(--white)!important}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(14,156,143,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(14,156,143,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-glow{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(14,156,143,0.1) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:900px}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;border:1px solid rgba(14,156,143,0.4);color:var(--teal);font-size:0.73rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.35rem 1rem;border-radius:2px;margin-bottom:2.5rem;animation:fadeUp 0.6s ease both}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3rem,7vw,6.5rem);line-height:1.0;letter-spacing:-0.02em;margin-bottom:1.5rem;animation:fadeUp 0.6s 0.1s ease both}
+h1 em{font-style:normal;color:var(--teal)}
+.hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:var(--muted);max-width:580px;line-height:1.85;margin-bottom:3rem;animation:fadeUp 0.6s 0.2s ease both}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp 0.6s 0.3s ease both}
+.btn-primary{background:var(--teal);color:var(--black);padding:0.85rem 2.2rem;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-primary:hover{background:var(--white);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--white);padding:0.85rem 2.2rem;border:1px solid var(--border);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:3rem;margin-top:5rem;padding-top:3rem;border-top:1px solid var(--border);animation:fadeUp 0.6s 0.4s ease both;flex-wrap:wrap}
+.stat-number{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--teal);display:block}
+.stat-label{font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TICKER ── */
+.tagline-band{background:var(--teal);padding:1.1rem 0;overflow:hidden}
+.tagline-scroll{display:flex;gap:4rem;white-space:nowrap;animation:scroll 22s linear infinite;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--black)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTION BASE ── */
+section{padding:7rem 4rem;position:relative}
+.section-label{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;display:flex;align-items:center;gap:0.75rem}
+.section-label::before{content:'';width:28px;height:1px;background:var(--teal)}
+h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin-bottom:1.5rem}
+
+/* ── ABOUT ── */
+#about{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-text p{color:var(--muted);line-height:1.9;margin-bottom:1.2rem;font-size:1.02rem}
+.about-visual{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.about-card{background:var(--grey);padding:2rem;transition:background 0.2s}
+.about-card:hover{background:var(--mid)}
+.about-card-icon{font-size:1.8rem;margin-bottom:1rem}
+.about-card h4{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.4rem}
+.about-card p{font-size:0.82rem;color:var(--muted);line-height:1.6}
+
+/* ── SERVICES ── */
+#services{background:var(--grey)}
+.services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem;flex-wrap:wrap;gap:2rem}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.service-card{background:var(--black);padding:2.5rem;position:relative;overflow:hidden;transition:all 0.3s}
+.service-card::before{content:'';position:absolute;inset:0;background:var(--teal-glow);opacity:0;transition:opacity 0.3s}
+.service-card:hover::before{opacity:1}
+.service-card:hover{transform:translateY(-4px)}
+.service-number{font-family:'Syne',sans-serif;font-size:0.7rem;color:var(--teal);letter-spacing:0.18em;margin-bottom:1.5rem;display:block}
+.service-icon{font-size:1.9rem;margin-bottom:1.2rem;display:block}
+.service-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:0.8rem}
+.service-card p{font-size:0.87rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
+.service-price{font-family:'Syne',sans-serif;font-size:0.78rem;color:var(--teal);border-top:1px solid var(--border);padding-top:1rem;display:flex;justify-content:space-between}
+
+/* ── PROCESS ── */
+#process{background:var(--black)}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:4rem;position:relative}
+.process-steps::before{content:'';position:absolute;top:2rem;left:12%;right:12%;height:1px;background:var(--teal);z-index:0;opacity:0.25}
+.step{text-align:center;padding:0 1.5rem;position:relative;z-index:1}
+.step-number{width:4rem;height:4rem;border-radius:50%;background:var(--grey);border:1px solid var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--teal)}
+.step h4{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.5rem}
+.step p{font-size:0.82rem;color:var(--muted);line-height:1.6}
+
+/* ── PRICING ── */
+#pricing{background:var(--grey)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.price-card{background:var(--black);border:1px solid var(--border);padding:2.5rem;border-radius:2px;position:relative;transition:all 0.3s}
+.price-card:hover{border-color:var(--teal);transform:translateY(-4px)}
+.price-card.featured{border-color:var(--teal);background:linear-gradient(135deg,var(--grey) 0%,rgba(14,156,143,0.08) 100%)}
+.price-badge{position:absolute;top:-1px;right:2rem;background:var(--teal);color:var(--black);font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.28rem 0.8rem}
+.price-tier{font-size:0.7rem;color:var(--teal);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.5rem}
+.price-card h3{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;margin-bottom:0.8rem}
+.price-amount{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;margin:1.2rem 0}
+.price-amount span{font-size:1rem;color:var(--muted);font-weight:300}
+.price-features{list-style:none;margin:1.5rem 0 2rem}
+.price-features li{font-size:0.84rem;color:var(--muted);padding:0.5rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem}
+.price-features li::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0}
+
+/* ── MARKETS ── */
+#markets{background:var(--black)}
+.markets-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:3rem}
+.market-item{background:var(--grey);padding:2rem;text-align:center;transition:all 0.2s}
+.market-item:hover{background:var(--mid);transform:scale(1.02)}
+.market-flag{font-size:2rem;margin-bottom:0.7rem;display:block}
+.market-item h4{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;margin-bottom:0.3rem}
+.market-item p{font-size:0.74rem;color:var(--muted)}
+
+/* ── CONTACT / INTAKE FORM ── */
+#contact{background:var(--grey)}
+.contact-inner{display:grid;grid-template-columns:1fr 1.3fr;gap:6rem;align-items:start}
+.contact-info h2{margin-bottom:1rem}
+.contact-info > p{color:var(--muted);line-height:1.85;margin-bottom:2rem;font-size:0.97rem}
+.contact-detail{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;color:var(--muted);font-size:0.88rem}
+.contact-detail a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+.contact-detail a:hover{color:var(--teal)}
+.contact-icon{width:2.5rem;height:2.5rem;background:var(--mid);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+
+/* Automation badge */
+.auto-badge{background:rgba(14,156,143,0.07);border:1px solid rgba(14,156,143,0.25);border-radius:4px;padding:1.2rem 1.4rem;margin-top:2rem}
+.auto-badge-title{font-family:'Syne',sans-serif;font-size:0.78rem;color:var(--teal);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem}
+.auto-steps{list-style:none;margin-top:0.3rem}
+.auto-steps li{font-size:0.78rem;color:var(--muted);padding:0.25rem 0;display:flex;align-items:flex-start;gap:0.5rem;line-height:1.5}
+.auto-steps li::before{content:'→';color:var(--teal);flex-shrink:0;margin-top:0.05rem}
+
+/* Intake form */
+.intake-form{background:var(--black);border:1px solid var(--border);border-radius:2px;padding:2.5rem}
+.intake-form-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:0.3rem}
+.intake-form-sub{font-size:0.78rem;color:var(--muted);margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.9rem}
+.form-group label{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+.required-star{color:var(--teal)}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--white);padding:0.8rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;border-radius:2px;outline:none;transition:border-color 0.2s;width:100%}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--teal);background:rgba(14,156,143,0.04)}
+.form-group select option{background:var(--grey);color:var(--white)}
+.form-group textarea{min-height:110px;resize:vertical}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#444}
+
+/* Budget grid */
+.budget-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-top:0.2rem}
+.budget-radio{display:none}
+.budget-label{display:block;text-align:center;padding:0.6rem 0.4rem;border:1px solid var(--border);border-radius:2px;font-size:0.76rem;color:var(--muted);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.budget-radio:checked + .budget-label{border-color:var(--teal);color:var(--teal);background:rgba(14,156,143,0.08)}
+.budget-label:hover{border-color:rgba(14,156,143,0.4);color:var(--white)}
+
+/* Honeypot - hidden from users */
+.hp-field{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+
+/* Submit button */
+.submit-btn{width:100%;background:var(--teal);color:var(--black);padding:1rem;border:none;border-radius:2px;font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;letter-spacing:0.08em;transition:all 0.2s;margin-top:0.5rem;position:relative;overflow:hidden}
+.submit-btn:hover{background:var(--white)}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed}
+.btn-loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:none;align-items:center;justify-content:center}
+.spinner{width:20px;height:20px;border:2px solid rgba(0,0,0,0.3);border-top-color:var(--black);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error message */
+.form-error{background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);border-radius:2px;padding:0.8rem 1rem;font-size:0.82rem;color:#E74C3C;margin-bottom:1rem;display:none}
+
+/* Success state */
+.form-success{display:none;text-align:center;padding:3rem 2rem}
+.success-icon{font-size:3rem;margin-bottom:1rem}
+.success-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--teal);margin-bottom:0.8rem}
+.success-body{font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem}
+.client-id-box{background:rgba(14,156,143,0.1);border:1px solid var(--teal);border-radius:4px;padding:1.2rem;margin:1rem 0}
+.client-id-label{font-size:0.7rem;color:var(--teal);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.4rem}
+.client-id-value{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:0.05em}
+.next-steps-list{text-align:left;list-style:none;margin:1rem 0;background:var(--grey);border-radius:4px;padding:1rem 1.2rem}
+.next-steps-list li{font-size:0.82rem;color:var(--muted);padding:0.3rem 0;display:flex;align-items:flex-start;gap:0.6rem;line-height:1.5}
+.next-steps-list li::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0}
+
+/* ── FOOTER ── */
+footer{background:var(--black);border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
+.footer-logo span{color:var(--teal)}
+.footer-tagline{font-size:0.76rem;color:var(--muted);letter-spacing:0.1em;margin-top:0.3rem}
+.footer-links{display:flex;gap:2rem;list-style:none}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--teal)}
+.footer-copy{font-size:0.75rem;color:var(--muted);width:100%;text-align:center;padding-top:1.5rem;border-top:1px solid var(--border);margin-top:1rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links{display:none}
+  section{padding:5rem 1.5rem}
+  #hero{padding:7rem 1.5rem 4rem}
+  #about{grid-template-columns:1fr;gap:3rem}
+  .services-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr 1fr;gap:2rem}
+  .process-steps::before{display:none}
+  .pricing-grid{grid-template-columns:1fr}
+  .markets-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-inner{grid-template-columns:1fr;gap:3rem}
+  footer{flex-direction:column;text-align:center}
+  .footer-links{flex-wrap:wrap;justify-content:center}
+  .hero-stats{gap:1.5rem}
+  .form-row{grid-template-columns:1fr}
+  .intake-form{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="mainNav">
+  <a class="nav-logo" href="#">monoversal <span>HUB</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#contact" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span>Nigeria's Digital Services Agency · BN: 9319562</div>
+    <h1>Systems.<br/><em>Solutions.</em><br/>Support.</h1>
+    <p class="hero-sub">MONOVERSAL HUB is a CAC-registered Nigerian digital services agency delivering world-class business outsourcing, digital marketing, and remote support to companies across the USA, UK, UAE, Canada, and Europe.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start a Project →</a>
+      <a href="#services" class="btn-ghost">Our Services</a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="stat-number">20+</span><span class="stat-label">Service Categories</span></div>
+      <div><span class="stat-number">10+</span><span class="stat-label">Countries Served</span></div>
+      <div><span class="stat-number">3</span><span class="stat-label">Core Pillars</span></div>
+      <div><span class="stat-number">24hr</span><span class="stat-label">Response Time</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="tagline-band">
+  <div class="tagline-scroll">
+    <span>Virtual Assistance</span><span>•</span><span>Digital Marketing</span><span>•</span>
+    <span>Content Creation</span><span>•</span><span>Social Media Management</span><span>•</span>
+    <span>SEO Services</span><span>•</span><span>Business Consulting</span><span>•</span>
+    <span>Data Research</span><span>•</span><span>Email Marketing</span><span>•</span>
+    <span>BPO Solutions</span><span>•</span><span>Africa Market Entry</span><span>•</span>
+    <span>Virtual Assistance</span><span>•</span><span>Digital Marketing</span><span>•</span>
+    <span>Content Creation</span><span>•</span><span>Social Media Management</span><span>•</span>
+    <span>SEO Services</span><span>•</span><span>Business Consulting</span><span>•</span>
+    <span>Data Research</span><span>•</span><span>Email Marketing</span><span>•</span>
+    <span>BPO Solutions</span><span>•</span><span>Africa Market Entry</span><span>•</span>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-text">
+    <div class="section-label">Who We Are</div>
+    <h2>Africa's Gateway to Global Business Services</h2>
+    <p>MONOVERSAL HUB is a registered Nigerian digital services agency built on three pillars: Systems, Solutions, and Support. We bridge the gap between world-class African talent and the operational needs of businesses in developed economies.</p>
+    <p>From virtual assistance and social media management to business consulting and content strategy — we deliver high-quality, cost-effective remote services that help international businesses grow without the overhead of local hiring.</p>
+    <p style="color:var(--teal);font-size:0.83rem;letter-spacing:0.05em">CAC Registered · BN: 9319562 · Reg. 12 February 2026 · Omoku, Rivers State, Nigeria</p>
+    <a href="#contact" class="btn-primary" style="margin-top:1.5rem;display:inline-block">Work With Us →</a>
+  </div>
+  <div class="about-visual">
+    <div class="about-card"><div class="about-card-icon">⚙️</div><h4>Systems</h4><p>We build operational frameworks that keep your business running smoothly — from CRM setups to workflow automation.</p></div>
+    <div class="about-card"><div class="about-card-icon">💡</div><h4>Solutions</h4><p>Every challenge has a cost-effective African solution. We solve your business problems with precision and creativity.</p></div>
+    <div class="about-card"><div class="about-card-icon">🤝</div><h4>Support</h4><p>Reliable, responsive, and professional. We are your dedicated remote team — available when you need us most.</p></div>
+    <div class="about-card"><div class="about-card-icon">🌍</div><h4>Global Reach</h4><p>Serving clients across the USA, UK, UAE, Canada, Germany, Qatar, Kuwait, and beyond. Remote-first by design.</p></div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="services-header">
+    <div><div class="section-label">What We Do</div><h2>Our Service Categories</h2></div>
+    <a href="#contact" class="btn-ghost">Request Custom Quote →</a>
+  </div>
+  <div class="services-grid">
+    <div class="service-card"><span class="service-number">01</span><span class="service-icon">🗂️</span><h3>Virtual Assistant Services</h3><p>Email management, scheduling, data entry, CRM updates, travel coordination, and administrative support — fully remote, fully reliable.</p><div class="service-price"><span>From $80/month</span><span>→</span></div></div>
+    <div class="service-card"><span class="service-number">02</span><span class="service-icon">📱</span><h3>Social Media Management</h3><p>Content creation, post scheduling, community management, and performance reporting across Instagram, LinkedIn, Facebook, and TikTok.</p><div class="service-price"><span>From $150/month</span><span>→</span></div></div>
+    <div class="service-card"><span class="service-number">03</span><span class="service-icon">✍️</span><h3>Content Writing & Copywriting</h3><p>SEO-optimized blog posts, website copy, email newsletters, product descriptions, and ghostwriting for business leaders.</p><div class="service-price"><span>From $15/article</span><span>→</span></div></div>
+    <div class="service-card"><span class="service-number">04</span><span class="service-icon">📈</span><h3>Digital Marketing</h3><p>Google Ads, Meta Ads, email marketing campaigns, SEO strategy, and conversion rate optimization for measurable ROI.</p><div class="service-price"><span>From $300/month</span><span>→</span></div></div>
+    <div class="service-card"><span class="service-number">05</span><span class="service-icon">🔍</span><h3>Research & Data Services</h3><p>Market research, competitor analysis, lead list building, data entry, database management, and business intelligence reports.</p><div class="service-price"><span>From $50/project</span><span>→</span></div></div>
+    <div class="service-card"><span class="service-number">06</span><span class="service-icon">🌐</span><h3>Business Consulting</h3><p>Africa market entry strategy, remote team building, operational consulting, and business process design for foreign companies.</p><div class="service-price"><span>From $150/hr</span><span>→</span></div></div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section id="process">
+  <div style="text-align:center;max-width:580px;margin:0 auto">
+    <div class="section-label" style="justify-content:center">How It Works</div>
+    <h2>From First Contact to Delivered Results</h2>
+  </div>
+  <div class="process-steps">
+    <div class="step"><div class="step-number">01</div><h4>Submit Enquiry</h4><p>Fill in our intake form. Your details are instantly logged and a unique Client ID is generated automatically.</p></div>
+    <div class="step"><div class="step-number">02</div><h4>Discovery Call</h4><p>We review your brief and schedule a free 30-minute call within 24 hours to understand your needs.</p></div>
+    <div class="step"><div class="step-number">03</div><h4>Custom Proposal</h4><p>You receive a tailored service proposal with clear deliverables, timelines, and transparent pricing.</p></div>
+    <div class="step"><div class="step-number">04</div><h4>Ongoing Delivery</h4><p>Regular updates, reporting, and communication — you're always in the loop, every step of the way.</p></div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing">
+  <div class="section-label">Transparent Pricing</div>
+  <h2>Plans Built for International Businesses</h2>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-tier">Starter</div><h3>Essential Support</h3>
+      <p style="font-size:0.84rem;color:var(--muted)">For solo entrepreneurs and small businesses needing basic remote support.</p>
+      <div class="price-amount">$150<span>/month</span></div>
+      <ul class="price-features"><li>10 hours VA support</li><li>8 social media posts/month</li><li>Email management</li><li>Weekly check-in call</li><li>Email support</li></ul>
+      <a href="#contact" class="btn-ghost" style="width:100%;text-align:center;display:block">Get Started</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">Most Popular</div>
+      <div class="price-tier">Growth</div><h3>Full-Service Package</h3>
+      <p style="font-size:0.84rem;color:var(--muted)">For growing businesses needing consistent, multi-channel support.</p>
+      <div class="price-amount">$500<span>/month</span></div>
+      <ul class="price-features"><li>25 hours VA/admin support</li><li>Social media (3 platforms)</li><li>2 blog posts/month</li><li>2 email campaigns</li><li>Monthly strategy call</li><li>Priority response</li></ul>
+      <a href="#contact" class="btn-primary" style="width:100%;text-align:center;display:block">Get Started</a>
+    </div>
+    <div class="price-card">
+      <div class="price-tier">Premium</div><h3>Agency Partner</h3>
+      <p style="font-size:0.84rem;color:var(--muted)">Complete outsourced support for established companies.</p>
+      <div class="price-amount">$1,200<span>/month</span></div>
+      <ul class="price-features"><li>50 hours dedicated support</li><li>Full social media management</li><li>4 blog posts + SEO</li><li>Ad campaign management</li><li>Weekly reporting & calls</li><li>Dedicated account manager</li></ul>
+      <a href="#contact" class="btn-ghost" style="width:100%;text-align:center;display:block">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARKETS ── -->
+<section id="markets">
+  <div style="text-align:center;margin-bottom:1rem">
+    <div class="section-label" style="justify-content:center">Global Reach</div>
+    <h2>Countries We Serve</h2>
+  </div>
+  <div class="markets-grid">
+    <div class="market-item"><span class="market-flag">🇺🇸</span><h4>United States</h4><p>SMEs, startups, e-commerce brands</p></div>
+    <div class="market-item"><span class="market-flag">🇬🇧</span><h4>United Kingdom</h4><p>Professional services, fintech, retail</p></div>
+    <div class="market-item"><span class="market-flag">🇦🇪</span><h4>UAE & Dubai</h4><p>Multinationals, real estate, logistics</p></div>
+    <div class="market-item"><span class="market-flag">🇨🇦</span><h4>Canada</h4><p>Healthcare, education, tech startups</p></div>
+    <div class="market-item"><span class="market-flag">🇩🇪</span><h4>Germany</h4><p>Engineering firms, B2B services</p></div>
+    <div class="market-item"><span class="market-flag">🇶🇦</span><h4>Qatar & Doha</h4><p>Vision 2030 digital projects</p></div>
+    <div class="market-item"><span class="market-flag">🇰🇼</span><h4>Kuwait</h4><p>Growing digital economy</p></div>
+    <div class="market-item"><span class="market-flag">🌍</span><h4>And Beyond</h4><p>Remote-first. Borderless delivery.</p></div>
+  </div>
+</section>
+
+<!-- ── CONTACT — AUTOMATED INTAKE ── -->
+<section id="contact">
+  <div class="contact-inner">
+
+    <!-- LEFT: Info -->
+    <div class="contact-info">
+      <div class="section-label">Get In Touch</div>
+      <h2>Let's Build Something Together</h2>
+      <p>Fill in the form and your enquiry is instantly logged in our system with a unique reference ID. We respond within 24 hours.</p>
+      <div class="contact-detail"><div class="contact-icon">✉️</div><a href="mailto:hello@monoversalhub.com">hello@monoversalhub.com</a></div>
+      <div class="contact-detail"><div class="contact-icon">📞</div><a href="tel:+2347060635136">+234 706 063 5136</a></div>
+      <div class="contact-detail"><div class="contact-icon">💬</div><a href="https://wa.me/2347060635136" target="_blank">WhatsApp: +234 706 063 5136</a></div>
+      <div class="contact-detail"><div class="contact-icon">📍</div><span>Omoku, Rivers State, Nigeria · Remote Global Delivery</span></div>
+      <div class="contact-detail"><div class="contact-icon">🕐</div><span>GMT+1 · Available for US & EU business hours</span></div>
+
+      <div class="auto-badge">
+        <div class="auto-badge-title">⚡ AUTOMATED INTAKE SYSTEM</div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem">When you submit this form, the following happens automatically:</p>
+        <ul class="auto-steps">
+          <li>A unique Client ID is generated (MH-YYYY-XXXXXX format)</li>
+          <li>Your details are saved to our Client Register in real-time</li>
+          <li>You receive a confirmation email with your reference ID</li>
+          <li>Our team receives an instant notification with your full brief</li>
+          <li>A 24-hour follow-up reminder is automatically scheduled</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="intake-form">
+      <div id="formContent">
+        <div class="intake-form-title">Client Intake Form</div>
+        <div class="intake-form-sub">Fields marked <span class="required-star">*</span> are required · Your information is handled securely and confidentially</div>
+
+        <div class="form-error" id="formError">Please fill in all required fields.</div>
+
+        <form id="intakeForm" novalidate>
+
+          <!-- Honeypot spam trap (hidden from real users) -->
+          <div class="hp-field" aria-hidden="true">
+            <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off"/>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span class="required-star">*</span></label>
+              <input type="text" id="f_name" placeholder="Your full name" autocomplete="name" required/>
+            </div>
+            <div class="form-group">
+              <label>Business / Company Name</label>
+              <input type="text" id="f_company" placeholder="Your business (if any)"/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Address <span class="required-star">*</span></label>
+              <input type="email" id="f_email" placeholder="your@email.com" autocomplete="email" required/>
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp</label>
+              <input type="tel" id="f_phone" placeholder="+1 234 567 8900" autocomplete="tel"/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Country <span class="required-star">*</span></label>
+              <select id="f_country" required>
+                <option value="">— Select your country —</option>
+                <optgroup label="Top Markets">
+                  <option>United States</option>
+                  <option>United Kingdom</option>
+                  <option>UAE / Dubai</option>
+                  <option>Canada</option>
+                  <option>Germany</option>
+                  <option>Qatar / Doha</option>
+                  <option>Kuwait</option>
+                  <option>Australia</option>
+                </optgroup>
+                <optgroup label="Europe">
+                  <option>France</option><option>Netherlands</option>
+                  <option>Sweden</option><option>Denmark</option>
+                  <option>Norway</option><option>Switzerland</option>
+                  <option>Italy</option><option>Spain</option>
+                  <option>Belgium</option><option>Ireland</option>
+                </optgroup>
+                <optgroup label="Asia & Pacific">
+                  <option>Japan</option><option>China</option>
+                  <option>Singapore</option><option>South Korea</option>
+                  <option>New Zealand</option>
+                </optgroup>
+                <optgroup label="Africa">
+                  <option>Nigeria</option><option>South Africa</option>
+                  <option>Ghana</option><option>Kenya</option>
+                </optgroup>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>How Did You Find Us?</label>
+              <select id="f_source">
+                <option value="">— Select source —</option>
+                <option>LinkedIn</option>
+                <option>Google Search</option>
+                <option>Fiverr</option>
+                <option>Upwork</option>
+                <option>Referral from someone</option>
+                <option>Instagram</option>
+                <option>Facebook</option>
+                <option>Twitter / X</option>
+                <option>WhatsApp</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Service Required <span class="required-star">*</span></label>
+            <select id="f_service" required>
+              <option value="">— Select a service —</option>
+              <option>Virtual Assistant Services</option>
+              <option>Social Media Management</option>
+              <option>Content Writing & Copywriting</option>
+              <option>Digital Marketing (Ads / SEO / Email)</option>
+              <option>Research & Data Services</option>
+              <option>Business Consulting</option>
+              <option>Full-Service Package</option>
+              <option>Africa Market Entry Consulting</option>
+              <option>Multiple / Custom Services</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Monthly Budget (USD)</label>
+            <div class="budget-grid">
+              <input type="radio" name="budget" id="b1" value="Under $200" class="budget-radio"/>
+              <label for="b1" class="budget-label">Under $200</label>
+              <input type="radio" name="budget" id="b2" value="$200 - $500" class="budget-radio"/>
+              <label for="b2" class="budget-label">$200 – $500</label>
+              <input type="radio" name="budget" id="b3" value="$500 - $1,000" class="budget-radio"/>
+              <label for="b3" class="budget-label">$500 – $1,000</label>
+              <input type="radio" name="budget" id="b4" value="$1,000 - $2,500" class="budget-radio"/>
+              <label for="b4" class="budget-label">$1,000 – $2,500</label>
+              <input type="radio" name="budget" id="b5" value="$2,500 - $5,000" class="budget-radio"/>
+              <label for="b5" class="budget-label">$2,500 – $5,000</label>
+              <input type="radio" name="budget" id="b6" value="$5,000+" class="budget-radio"/>
+              <label for="b6" class="budget-label">$5,000+</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tell Us About Your Project <span class="required-star">*</span></label>
+            <textarea id="f_message" placeholder="Describe your project, goals, timeline, and any specific requirements. The more detail you provide, the better we can assist you." required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span id="btnText">SUBMIT ENQUIRY →</span>
+            <span class="btn-loader" id="btnLoader"><div class="spinner"></div></span>
+          </button>
+
+          <p style="font-size:0.7rem;color:var(--muted);margin-top:0.8rem;text-align:center;line-height:1.6">
+            By submitting this form you agree to be contacted by MONOVERSAL HUB regarding your enquiry.<br/>
+            Your information is never shared with third parties.
+          </p>
+        </form>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Enquiry Received!</div>
+        <div class="client-id-box">
+          <div class="client-id-label">Your Client Reference ID</div>
+          <div class="client-id-value" id="displayClientId">MH-2026-000000</div>
+        </div>
+        <div class="success-body">
+          Your enquiry has been logged in our system and a confirmation email is on its way to you.<br/><br/>
+          <strong style="color:var(--white)">What happens next:</strong>
+        </div>
+        <ul class="next-steps-list">
+          <li>You will receive a confirmation email shortly</li>
+          <li>Our team will review your project brief</li>
+          <li>We will contact you within <strong style="color:var(--teal)">24 hours</strong> to schedule a discovery call</li>
+          <li>Keep your Reference ID for all future communications</li>
+        </ul>
+        <a href="#services" class="btn-ghost" style="display:inline-block;margin-top:1rem">Explore Our Services</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>
+    <div class="footer-logo">monoversal <span>HUB</span></div>
+    <div class="footer-tagline">Systems. Solutions. Support.</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">
+    © 2026 MONOVERSAL HUB · CAC Registered · BN: 9319562 · Omoku, Rivers State, Nigeria · All rights reserved
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+//  CONFIGURATION — REPLACE WITH YOUR ZAPIER WEBHOOK URL
+//  Get this from: zapier.com → Your Zap → Trigger → Webhooks by Zapier
+//  → Copy your webhook URL and paste below
+// ═══════════════════════════════════════════════════════════════════════
+const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/YOUR_ZAPIER_HOOK_ID/";
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── GENERATE CLIENT ID ────────────────────────────────────────────────
+function generateClientId() {
+  const year = new Date().getFullYear();
+  const rand = Math.floor(100000 + Math.random() * 900000);
+  return `MH-${year}-${rand}`;
+}
+
+// ── GET SELECTED BUDGET ───────────────────────────────────────────────
+function getSelectedBudget() {
+  const checked = document.querySelector('input[name="budget"]:checked');
+  return checked ? checked.value : "Not specified";
+}
+
+// ── FORMAT DATE FOR GOOGLE SHEETS (ISO = auto-parsed as date) ─────────
+// FIX: Use ISO format YYYY-MM-DD so Google Sheets reads it as a DATE not text
+// This makes the Follow Up Alert formula in Sheet 01 col R work correctly
+function formatDateForSheets(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const d = String(dateObj.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+// ── FORMAT READABLE TIMESTAMP ─────────────────────────────────────────
+function getTimestamp() {
+  return new Date().toLocaleString("en-GB", {
+    day: "2-digit", month: "long", year: "numeric",
+    hour: "2-digit", minute: "2-digit",
+    timeZoneName: "short"
+  });
+}
+
+// ── FORM SUBMIT ───────────────────────────────────────────────────────
+document.getElementById("intakeForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  // Honeypot check — bots fill hidden fields, humans don't
+  if (document.getElementById("hp_website").value !== "") {
+    console.log("Bot detected — submission blocked");
+    return;
+  }
+
+  // Field values
+  const name    = document.getElementById("f_name").value.trim();
+  const email   = document.getElementById("f_email").value.trim();
+  const country = document.getElementById("f_country").value;
+  const service = document.getElementById("f_service").value;
+  const message = document.getElementById("f_message").value.trim();
+
+  // Validation
+  const errorEl = document.getElementById("formError");
+  if (!name || !email || !country || !service || !message) {
+    errorEl.textContent = "Please fill in all required fields marked with *.";
+    errorEl.style.display = "block";
+    errorEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errorEl.textContent = "Please enter a valid email address.";
+    errorEl.style.display = "block";
+    return;
+  }
+  errorEl.style.display = "none";
+
+  // Build payload
+  const clientId  = generateClientId();
+  const now        = new Date();
+  const tomorrow   = new Date(now.getTime() + 86400000);
+
+  // ── PAYLOAD — MATCHES SHEET 01 COLUMN ORDER EXACTLY ────────────────
+  // col A = client_id
+  // col B = timestamp (readable text — display only in sheet)
+  // col C = full_name
+  // col D = company_name
+  // col E = email
+  // col F = phone
+  // col G = country
+  // col H = service_required
+  // col I = budget
+  // col J = how_found
+  // col K = project_brief
+  // col L = status  (always "NEW ENQUIRY")
+  // col M = [blank — monthly value, filled manually]
+  // col N = [blank — contract start, filled manually]
+  // col O = follow_up_due (ISO date YYYY-MM-DD for formula compatibility)
+  // col P = [blank — notes, filled manually]
+  // col Q = formula (Lifetime Value — auto)
+  // col R = formula (Follow Up Alert — auto)
+  const payload = {
+    client_id:        clientId,
+    timestamp:        getTimestamp(),
+    full_name:        name,
+    company_name:     document.getElementById("f_company").value.trim() || "N/A",
+    email:            email,
+    phone:            document.getElementById("f_phone").value.trim() || "N/A",
+    country:          country,
+    service_required: service,
+    budget:           getSelectedBudget(),
+    how_found:        document.getElementById("f_source").value || "Not specified",
+    project_brief:    message,
+    status:           "NEW ENQUIRY",
+    // FIX: ISO date format so Google Sheets stores as date, enabling col R formula
+    follow_up_due:    formatDateForSheets(tomorrow)
+  };
+
+  // Loading state
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  document.getElementById("btnText").style.opacity = "0";
+  const loader = document.getElementById("btnLoader");
+  loader.style.display = "flex";
+
+  try {
+    await fetch(ZAPIER_WEBHOOK_URL, {
+      method:  "POST",
+      mode:    "no-cors",   // Required for Zapier webhooks (CORS blocked by design)
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(payload)
+    });
+  } catch (err) {
+    // no-cors requests always "fail" at the JS level even on success
+    // Zapier receives the data regardless — this is expected behaviour
+    console.log("Webhook sent (no-cors mode)");
+  }
+
+  // Show success state
+  document.getElementById("displayClientId").textContent = clientId;
+  document.getElementById("formContent").style.display = "none";
+  document.getElementById("formSuccess").style.display = "block";
+  document.getElementById("formSuccess").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+// ── SCROLL ANIMATIONS ─────────────────────────────────────────────────
+const animObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = "1";
+      e.target.style.transform = "translateY(0)";
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll(
+  ".service-card,.about-card,.step,.price-card,.market-item"
+).forEach(el => {
+  el.style.opacity = "0";
+  el.style.transform = "translateY(20px)";
+  el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+  animObserver.observe(el);
+});
+
+// ── NAV SCROLL EFFECT ─────────────────────────────────────────────────
+window.addEventListener("scroll", () => {
+  document.getElementById("mainNav").style.background =
+    window.scrollY > 60 ? "rgba(10,10,10,0.98)" : "rgba(10,10,10,0.9)";
+});
+</script>
+</body>
+</html>
